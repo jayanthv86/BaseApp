@@ -3,7 +3,11 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
-const db = require('../db'); 
+const db_user = require('../db/index.jsx').User; 
+const session = require('express-session');
+//const passport = require('passport');
+
+
 
 
 
@@ -27,12 +31,28 @@ app.get('*', function (req, res) {
 });
 
 
-//for interna server problems, sends 500 error message
+//for internal server problems, sends 500 error message
 app.use(function (err, req, res, next) {
   console.error(err);
   console.error(err.stack);
   res.status(err.status || 500).send(err.message || 'Internal server error.');
 });
+
+
+//setting the session in the middleware, the session hold
+//information about the current user
+//on our deployment server, we can set an environment variable called SESSION_SECRET with our real secret
+app.use(session({
+  secret: secret: process.env.SESSION_SECRET || 'a wildly insecure secret',
+  resave: false,
+  saveUninitialized: false
+}));
+
+
+//initializing passport to get req.session with the user info on it
+// app.use(passport.initialize());
+// app.use(passport.session());
+app.use(require('./passport_middleware'));
 
 //starting up the server:
 const port = process.env.PORT || 3000; // this can be very useful if you deploy to Heroku!
@@ -40,13 +60,19 @@ const port = process.env.PORT || 3000; // this can be very useful if you deploy 
 //   console.log(`*** starting server, listening on port ${port} ***`);
 // });
 
-db.sync()  // sync our database
+
+
+//syncing the user table in the data base
+db_user.sync({force: true})  // sync our database
   .then(function(){	// then start listening with our express server once we have synced
     app.listen(port, function(){
     	console.log(`*** starting server, listening on port ${port} ***`);
 
     }); 
   })
+  .catch(function(error){
+  	console.log(error);
+  });
 
 
 
