@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { create as createUser } from './users';
 import { browserHistory } from 'react-router';
 
 /* ------------------    ACTIONS    --------------------- */
@@ -32,7 +31,7 @@ const resToData = res => res.data;
 
 // a "simple" dispatcher which uses API, changes state, and returns a promise.
 export const login = credentials => dispatch => {
-  return axios.put('/api/me', credentials)
+  return axios.put('/api/login', credentials)
   .then(resToData)
   .then(user => {
     dispatch(set(user));
@@ -48,10 +47,9 @@ export const loginAndGoToUser = credentials => dispatch => {
 };
 
 export const signup = credentials => dispatch => {
-  return axios.post('/api/me', credentials)
+  return axios.post('/api/signup', credentials)
   .then(resToData)
   .then(user => {
-    dispatch(createUser(user)); // so new user appears in our master list
     dispatch(set(user)); // set current user
     return user;
   });
@@ -73,7 +71,7 @@ export const retrieveLoggedInUser = () => dispatch => {
 // optimistic
 export const logout = () => dispatch => {
   dispatch(remove());
-  axios.delete('/api/me')
+  axios.delete('/api/logout')
   .catch(err => console.error('logout unsuccessful', err));
 };
 
