@@ -18,6 +18,9 @@ var User = db.define('user', {
     },
     password: {
     type: Sequelize.STRING
+  },
+  salt: {
+    type: Sequelize.STRING
   }
 }, {
 	hooks: {

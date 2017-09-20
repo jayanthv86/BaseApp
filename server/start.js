@@ -43,7 +43,7 @@ app.use(function (err, req, res, next) {
 //information about the current user
 //on our deployment server, we can set an environment variable called SESSION_SECRET with our real secret
 app.use(session({
-  secret: secret: process.env.SESSION_SECRET || 'a wildly insecure secret',
+  secret: process.env.SESSION_SECRET || 'a wildly insecure secret',
   resave: false,
   saveUninitialized: false
 }));
