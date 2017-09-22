@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const User = require('../db/index.jsx').User;
+const User = require('../db/index').User;
 
 // check currently-authenticated user, i.e. "who am I?"
 router.get('/me', function (req, res, next) {

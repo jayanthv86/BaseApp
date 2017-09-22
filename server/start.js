@@ -3,7 +3,7 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
-const db_user = require('../db/index.jsx').User; 
+const db_user = require('../db/index').User; 
 const session = require('express-session');
 //const passport = require('passport');
 
