@@ -9,8 +9,12 @@ const Home = () => (
 				<Link to={'/signup'}>
 					<button type="button" className="btn btn-primary">signup</button>
 				</Link>
-    			<button type="button" className="btn btn-primary">login</button>
-    			<button type="button" className="btn btn-primary">logout</button>
+				<Link to={'/login'}>
+    				<button type="button" className="btn btn-primary">login</button>
+    			</Link>
+    			<Link to={'/logout'}>
+    				<button type="button" className="btn btn-primary">logout</button>
+    			</Link>
 			</div>
 		</div>
 	</div>
