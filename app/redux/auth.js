@@ -64,7 +64,10 @@ export const signupAndGoToUser = credentials => dispatch => {
 
 export const retrieveLoggedInUser = () => dispatch => {
   axios.get('/api/me')
-  .then(res => dispatch(set(res.data)))
+  .then(resToData)
+  .then(user => {
+  	console.log("******* rerieve cure user, user", user);
+  	return dispatch(set(user))})
   .catch(err => console.error('Problem fetching current user', err));
 };
 

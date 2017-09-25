@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import UserDetail from './components/UserDetail';
+import Root from './components/Root';
 //import Logout from './components/Logout';
 import { retrieveLoggedInUser } from './redux/auth';
 
@@ -12,13 +13,13 @@ import { retrieveLoggedInUser } from './redux/auth';
 
 const Routes = ({ fetchInitialData }) => (
   <Router history={browserHistory}>
-    <Route path="/" component={Home} onEnter={fetchInitialData}>
+    <Route path="/" component={Root} onEnter={fetchInitialData}>
       <IndexRoute component={Home} />
-      <Route path="/login" component={Login} />
-      <Route path="/signup" component={Signup} />
-      <Route path="/users/:id" component={UserDetail} />
-      <Route path="*" component={Home} />
+      <Route path="login" component={Login} />
+      <Route path="signup" component={Signup} />
+      <Route path="users/:id" component={UserDetail} />
     </Route>
+    <Route path="*" component={Home} />
   </Router>
 );
 
@@ -33,4 +34,4 @@ const mapDispatch = dispatch => ({
 });
 
 export default connect(mapProps, mapDispatch)(Routes);
-//history={browserHistory}
+//<IndexRoute component={Home} />

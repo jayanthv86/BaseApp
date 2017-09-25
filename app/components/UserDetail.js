@@ -12,13 +12,14 @@ class UserDetail extends React.Component {
 		return(
 			<div className="container">
 				<h1>Current user details</h1>
+				<h2>Email:{user.email}</h2>
 				
 			</div>
 		);
 	}
 }
 
-const mapState = (state) => ({user: state.user })
+const mapState = (state) => ({user: state})
 
 const mapDispatch = null;
 

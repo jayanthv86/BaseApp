@@ -5,6 +5,7 @@ const User = require('../db/index').User;
 router.get('/me', function (req, res, next) {
   // with Passport:
   res.send(req.user);
+
   
 });
 
@@ -20,7 +21,9 @@ router.post('/signup', function (req, res, next) {
     }
   })
   .spread((user, created) => {
+  	console.log("User, Created", user,created);
     if (created) {
+    	console.log("user created");
       // with Passport:
       req.logIn(user, function (err) {
         if (err) return next(err);
@@ -30,15 +33,22 @@ router.post('/signup', function (req, res, next) {
     } else {
       res.sendStatus(401); // this user already exists, you cannot sign up
     }
+  })
+  .catch((err)=>{
+  	console.log(err);
   });
 });
 
 // login, i.e. "you remember `me`, right?"
 router.put('/login', function (req, res, next) {
   User.findOne({
-    where: req.body // email and password
+    where: {
+    	email: req.body.email,
+    	password: req.body.password
+    } // email and password
   })
   .then(user => {
+  	console.log("in login middleware, user", user);
     if (!user) {
       res.sendStatus(401); // no message; good practice to omit why auth fails
     } 

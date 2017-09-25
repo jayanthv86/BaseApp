@@ -21,9 +21,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//when there is '/api' in the rout, look in api.js for the 
-//routing redirection
-app.use('/api', require('./api'));
+
 
 //if no route was found for the routing request, serves index.html
 app.get('*', function (req, res) {
@@ -54,6 +52,10 @@ app.use(session({
 // app.use(passport.session());
 app.use(require('./passport_middleware'));
 
+//when there is '/api' in the rout, look in api.js for the 
+//routing redirection
+app.use('/api', require('./api'));
+
 //starting up the server:
 const port = process.env.PORT || 3000; // this can be very useful if you deploy to Heroku!
 // app.listen(port, function () {
@@ -63,7 +65,7 @@ const port = process.env.PORT || 3000; // this can be very useful if you deploy 
 
 
 //syncing the user table in the data base
-db_user.sync({force: true})  // sync our database
+db_user.sync()  // sync our database
   .then(function(){	// then start listening with our express server once we have synced
     app.listen(port, function(){
     	console.log(`*** starting server, listening on port ${port} ***`);
