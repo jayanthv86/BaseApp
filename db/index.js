@@ -2,7 +2,7 @@ var Sequelize = require('sequelize');
 const crypto = require('crypto');
 const _ = require('lodash');
 
-const db = new Sequelize('postgres://localhost:5432/basic_web_app', { 
+const db = new Sequelize('postgres://localhost:5432/1010DataUser', { 
     logging: false 
 });
 
