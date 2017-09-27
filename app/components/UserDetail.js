@@ -8,18 +8,24 @@ class UserDetail extends React.Component {
 		super(props);
 	}
 	render(){
-		const {user} = this.props;
+		const currentUser = this.props.currentUser;
 		return(
 			<div className="container">
-				<h1>Current user details</h1>
-				<h2>Email:{user.email}</h2>
-				
+				{
+					currentUser ?
+					<div>
+						<h1>Current user details</h1>
+						<h2>Email:{currentUser.email}</h2>
+					</div>
+					:
+					<h1>No user is logged in</h1>
+				}
 			</div>
 		);
 	}
 }
 
-const mapState = (state) => ({user: state})
+const mapState = ({currentUser}) => ({currentUser});
 
 const mapDispatch = null;
 

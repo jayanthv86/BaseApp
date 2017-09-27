@@ -23,10 +23,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-//if no route was found for the routing request, serves index.html
-app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
 
 
 //for internal server problems, sends 500 error message

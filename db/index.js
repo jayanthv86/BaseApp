@@ -2,46 +2,54 @@ var Sequelize = require('sequelize');
 const crypto = require('crypto');
 const _ = require('lodash');
 
+const WRONG_EMAIL = '0';
+const WRONG_PASSEORD = '1';
+
 const db = new Sequelize('postgres://localhost:5432/1010DataUser', { 
     logging: false 
 });
 
-var User = db.define('user', {
-	email: {
-	    type: Sequelize.STRING,
-	    isEmail: true,
-	    allowNull: false
-	},
-	password: {
-	type: Sequelize.STRING
-   },
-   salt: {
-    type: Sequelize.STRING
-   }
-}, {
-	hooks: {
+var User= db.define('user',{
+  email: {
+    type: Sequelize.STRING,
+    isEmail: true,
+    allowNull: false
+},
+password: {
+type: Sequelize.STRING
+ },
+ salt: {
+  type: Sequelize.STRING
+ }
+},{
+  hooks: {
 		beforeCreate: setSaltAndPassword,
-    	beforeUpdate: setSaltAndPassword
+    beforeUpdate: setSaltAndPassword
 
-	},
-	instanceMethods: {
-		correctPassword: function(candidatePassword){
-			return this.Model.encryptPassword(candidatePassword, this.salt) === this.password;
-		},
-		//returns just the info we want to show in the front end - the email
-		sanitize: function(){
-			return _.omit(this.toJSON(), ['password', 'salt']);
-		}
-	},
-	classMethods: {
-		encryptPassword: function(plainText, salt){
-			const hash = crypto.createHash('sha1');
-			hash.update(plainText);
-			hash.update(salt);
-			return hash.digest('hex');
-		}
 	}
 });
+
+//class Methods
+User.encryptPassword = function(plainText, salt){
+  const hash = crypto.createHash('sha1');
+  hash.update(plainText);
+  hash.update(salt);
+  return hash.digest('hex');
+
+}
+
+
+//instance Methods:
+User.prototype.correctPassword = function(candidatePassword){
+  return User.encryptPassword(candidatePassword, this.salt) === this.password;
+
+}
+
+User.prototype.sanitize = function(){
+  return _.omit(this.toJSON(), ['password', 'salt']);
+}
+
+
 
 function generateSalt1 () {
 	return crypto.randomBytes(16).toString('base64');	//Base64 a binary-to-text encoding
@@ -67,6 +75,9 @@ function setSaltAndPassword (user) {
 }
 
 module.exports = {
- 	User: User
+   User: User,
+   WRONG_EMAIL: WRONG_EMAIL,
+   WRONG_PASSEORD: WRONG_PASSEORD
+
  };
 

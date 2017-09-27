@@ -30,12 +30,21 @@ export default function reducer (currentUser = null, action) {
 const resToData = res => res.data;
 
 // a "simple" dispatcher which uses API, changes state, and returns a promise.
+// export const login = credentials => dispatch => {
+//   return axios.put('/api/login/local', credentials)
+//   .then(resToData)
+//   .then(user => {
+//     dispatch(set(user));
+//     return user;
+//   });
+// };
+
 export const login = credentials => dispatch => {
-  return axios.put('/api/login', credentials)
-  .then(resToData)
-  .then(user => {
-    dispatch(set(user));
-    return user;
+  return axios.post('/api/login/local', credentials)
+  .then((res) => {
+    console.log('in redux login res', res);
+    dispatch(retrieveLoggedInUser());
+    return resToData;
   });
 };
 
