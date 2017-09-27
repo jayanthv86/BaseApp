@@ -10,6 +10,9 @@ const db = new Sequelize('postgres://localhost:5432/1010DataUser', {
 });
 
 var User= db.define('user',{
+  name: {
+
+  },
   email: {
     type: Sequelize.STRING,
     isEmail: true,
@@ -20,6 +23,15 @@ type: Sequelize.STRING
  },
  salt: {
   type: Sequelize.STRING
+ },
+ companyName: {
+
+ },
+ emplTitle: {
+
+ },
+ industry: {
+
  }
 },{
   hooks: {

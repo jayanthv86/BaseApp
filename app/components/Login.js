@@ -13,28 +13,29 @@ class Login extends React.Component {
   render() {
     const { message } = this.props;
     return (
-      <div className="signin-container">
+      <div className="container-fluid">
+        <h3 className="page-title">Login</h3>
         <div className="buffer local">
-          <form onSubmit={this.onLoginSubmit}>
+          <form className="col-sm-6" onSubmit={this.onLoginSubmit}>
             <div className="form-group">
-              <label>email</label>
+              <label className="sign-field-title">email</label>
               <input
                 name="email"
                 type="email"
-                className="form-control"
+                className="form-control sign-input"
                 required
               />
             </div>
             <div className="form-group">
-                <label>password</label>
+                <label className="sign-field-title">password</label>
                 <input
                   name="password"
                   type="password"
-                  className="form-control"
+                  className="form-control sign-input"
                   required
                 />
             </div>
-            <button type="submit" className="btn btn-block btn-primary">{message}</button>
+            <button type="submit" className="btn btn-block btn-primary sign-input sign-btn">{message}</button>
           </form>
         </div>
       </div>

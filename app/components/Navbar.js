@@ -15,9 +15,9 @@ class Navbar extends React.Component {
     return (
       <nav id="discover-navbar" className="navbar navbar-light">
          <a className="navbar-brand" href="/">
-             <img src="/images/1010data_Logo_2016.png" width="200" className="d-inline-block align-top" alt=""/>
+             <img id="logo" src="/images/1010data_Logo_2016.png" width="200" className="d-inline-block align-top" alt=""/>
         </a>
-        <div id="nav-sign-buttons">
+        <div className="collapse navbar-collapse">
         { this.props.currentUser ? this.renderLogout() : this.renderLoginSignup() }
         </div>
        </nav>
@@ -26,12 +26,12 @@ class Navbar extends React.Component {
 
   renderLoginSignup() {
     return (
-      <ul className="nav navbar-nav navbar-right">
+      <ul id="nav-sign-buttons" className="nav navbar-nav navbar-right">
         <li>
-         <Link to="/signup" activeClassName="active">signup</Link>
+         <Link to="/signup" activeClassName="active" className="sign-field-title">signup</Link>
         </li>
         <li>
-          <Link to="/login" activeClassName="active">login</Link>
+          <Link to="/login" activeClassName="active" className="sign-field-title">login</Link>
         </li>
       </ul>
     );
@@ -43,7 +43,7 @@ class Navbar extends React.Component {
       <ul className="nav navbar-nav navbar-right">
         <li>
         <button
-          className="navbar-btn btn btn-default"
+          className="navbar-btn btn btn-default sign-btn"
           onClick={this.props.logout}>
           logout {name}
         </button>

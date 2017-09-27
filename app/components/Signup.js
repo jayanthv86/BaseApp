@@ -15,25 +15,26 @@ class Signup extends React.Component {
   render(){
   	const { message } = this.props;
   	return(
-  		<div className="signin-container">
-  		 <form onSubmit={this.onSignupSubmit}>
+  		<div className="container-fluid">
+				<h3 className="page-title">Sign Up</h3>
+  		 <form className="col-sm-6" onSubmit={this.onSignupSubmit}>
   		  <div className="form-group">
-  		   <label>email</label>
-  		   <input
+  		   <label className="sign-field-title">email</label>
+  		   <input 
   		    name="email"
   		    type="email"
-  		    className="form-cntrol"
+  		    className="form-control sign-input"
   		   />
   		  </div>
   		  <div className="form-group">
-  		   <label>password</label>
-  		   <input
+  		   <label className="sign-field-title">password</label>
+  		   <input 
   		    name="password"
   		    type="password"
-  		    className="form-control"
+  		    className="form-control sign-input"
   		   />
   		  </div>
-  		  <button type="submit" className="btn btn-block btn-primary">{message}</button>
+  		  <button type="submit" className="btn btn-block btn-primary sign-input sign-btn">{message}</button>
   		 </form>
   		</div>
   	);

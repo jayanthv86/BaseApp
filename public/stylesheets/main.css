@@ -7,3 +7,27 @@
     float: right;
     vertical-align: middle;
 }
+
+#logo{
+    vertical-align: top;
+}
+
+.page-title{
+    padding-bottom: 20px;
+    color: #F4A460;
+}
+
+.sign-input{
+    width: 60%;
+}
+
+.sign-btn{
+    background-color: #F4A460;
+    border: none;
+    color: #B22222;
+
+}
+
+.sign-field-title{
+    color: #F4A460;
+}
