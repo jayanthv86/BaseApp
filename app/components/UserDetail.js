@@ -25,7 +25,16 @@ class UserDetail extends React.Component {
 	}
 }
 
-const mapState = ({currentUser}) => ({currentUser});
+//const mapState = ({currentUser}) => ({currentUser});
+const mapState = state => {
+    console.log("user detail state",state);
+  return (
+    {
+        currentUser: state.auth.currentUser
+      }
+
+  ) ;
+};
 
 const mapDispatch = null;
 

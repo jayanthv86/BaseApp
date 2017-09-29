@@ -12,8 +12,9 @@ class Navbar extends React.Component {
   }
 //<nav id="discover-navbar" className="navbar navbar-light navbar-brand">
   render() {
+    console.log("in nav bar renser current user",this.props.currentUser);
     return (
-      <nav id="discover-navbar" className="navbar navbar-light">
+        <nav id="discover-navbar" className="navbar navbar-light">
          <a className="navbar-brand" href="/">
              <img id="logo" src="/images/1010data_Logo_2016.png" width="200" className="d-inline-block align-top" alt=""/>
         </a>
@@ -55,13 +56,12 @@ class Navbar extends React.Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-//const mapState = ({currentUser}) => ({currentUser});
-// // equivalent to:
+
 const mapState = state => {
     console.log("navbar state",state);
   return (
     {
-        currentUser: state.currentUser
+        currentUser: state.auth.currentUser
       }
 
   ) ;

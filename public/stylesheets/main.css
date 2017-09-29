@@ -31,3 +31,7 @@
 .sign-field-title{
     color: #F4A460;
 }
+
+#login_err{
+    color:#B22222;
+}

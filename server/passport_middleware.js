@@ -8,18 +8,23 @@ router.use(passport.session());
 
 passport.use(new localStrategy({
   usernameField: 'email',
-  passwordField: 'password'
+  passwordField: 'password',
+  passReqToCallback : true
 },
-  function(inEmail, inPassword, done) {
+  function(req,inEmail, inPassword, done) {
     var curUser=null;
     User.findAll({ 
       where: {
         email: inEmail 
       }
     }).then(users => {
-      //console.log('done with findAll users', users[0]);
+      
       if (users.length === 0) {
-          return done(null, false, { message: 'Incorrect email' });
+
+
+        req.flash('message', "Incorrect email");
+        return done(null, false, { message: 'Incorrect email' });
+          //return done(null, false, req.flash('message', "Incorrect email"));
       }
       curUser = users.filter(function(element) {
         if(element.correctPassword(inPassword))

@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const db_user = require('../db/index').User; 
 const session = require('express-session');
+const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
 //const passport = require('passport');
 
 
@@ -21,13 +23,17 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//using cookie-parser
+app.use(cookieParser());
+
 
 
 
 
 //for internal server problems, sends 500 error message
 app.use(function (err, req, res, next) {
-  console.error(err);
+  //console.log('in error handling res',res);
+  console.error(err.message);
   console.error(err.stack);
   res.status(err.status || 500).send(err.message || 'Internal server error.');
 });
@@ -42,11 +48,15 @@ app.use(session({
   saveUninitialized: false
 }));
 
+//set up to use flash for storing messages from the session
+app.use(flash());
 
 //initializing passport to get req.session with the user info on it
 // app.use(passport.initialize());
 // app.use(passport.session());
 app.use(require('./passport_middleware'));
+
+
 
 //when there is '/api' in the rout, look in api.js for the 
 //routing redirection

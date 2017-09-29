@@ -10,13 +10,13 @@ const db = new Sequelize('postgres://localhost:5432/1010DataUser', {
 });
 
 var User= db.define('user',{
-  name: {
-
-  },
-  email: {
-    type: Sequelize.STRING,
-    isEmail: true,
-    allowNull: false
+name: {
+  type: Sequelize.STRING
+},
+email: {
+  type: Sequelize.STRING,
+  isEmail: true,
+  allowNull: false
 },
 password: {
 type: Sequelize.STRING
@@ -25,13 +25,13 @@ type: Sequelize.STRING
   type: Sequelize.STRING
  },
  companyName: {
-
+  type: Sequelize.STRING
  },
  emplTitle: {
-
- },
+  type: Sequelize.STRING
+},
  industry: {
-
+  type: Sequelize.STRING
  }
 },{
   hooks: {

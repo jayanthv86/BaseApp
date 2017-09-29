@@ -6,6 +6,7 @@ const WRONG_EMAIL = require('../db/index').WRONG_EMAIL;
 const WRONG_PASSEORD = require('../db/index').WRONG_PASSEORD;
 const passport = require('passport');
 
+
 // check currently-authenticated user, i.e. "who am I?"
 router.get('/me', function (req, res, next) {
   // with Passport:
@@ -20,16 +21,42 @@ router.get('/me', function (req, res, next) {
 // signup, i.e. "let `me` introduce myself"
 router.post('/login/local',
 passport.authenticate('local', { successRedirect: '/',
-                                 failureRedirect: '/login',
+                                 failureRedirect: '/api/login',
                                  failureFlash: true })
 );
+
+router.get('/login', function(req, res, next) {
+ 
+  var err = req.flash('message')[0];
+  console.log("get login message",err);
+  //res.send(req.flash);
+ //res.render('login');
+ res.statusMessage = err;
+ //res.status(404).end();
+
+ res.status(401).send({success: false, error: {message: err}});
+//  var error = new Error(err);
+//  error.code = 400;
+//  res.status(400);
+//  console.log('error message',error.message);
+//  //return next(error)
+//  res.status(404).send(error);
+//return next(new Error(res.statusMessage));
+});
+
 router.post('/signup', function (req, res, next) {
+  console.log('in signup api req.body',req.body);
   User.findOrCreate({
     where: {
-      email: req.body.email
+      email: req.body.email,
+      password: req.body.password
     },
     defaults: { // if the user doesn't exist, create including this info
-      password: req.body.password
+      //password: req.body.password
+      name: req.body.name,
+      companyName: req.body.company,
+      emplTitle: req.body.employeeTitle,
+      industry: req.body.industry
     }
   })
   .spread((user, created) => {
@@ -101,10 +128,10 @@ module.exports = router;
 
 //incase a use asks for a non existing route
 //reply with 4040 error
-router.use(function (req, res, next) {
-  const err = new Error('Not found.');
-  err.status = 404;
-  next(err);
-});
+// router.use(function (req, res, next) {
+//   const err = new Error('Not found.');
+//   err.status = 404;
+//   next(err);
+// });
 
 

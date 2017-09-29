@@ -12,10 +12,15 @@ class Login extends React.Component {
 
   render() {
     const { message } = this.props;
+    const { error_message } = this.props;
     return (
       <div className="container-fluid">
         <h3 className="page-title">Login</h3>
         <div className="buffer local">
+          {
+            error_message.length > 0 &&
+            <h4 id="login_err">{error_message}</h4>
+          }
           <form className="col-sm-6" onSubmit={this.onLoginSubmit}>
             <div className="form-group">
               <label className="sign-field-title">email</label>
@@ -49,12 +54,22 @@ class Login extends React.Component {
       password: event.target.password.value
     };
     this.props.login(credentials);
+    console.log('go back to login page');
   }
 }
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = () => ({ message: 'Log in' });
+//const mapState = () => ({ message: 'Log in' });
+
+const mapState = state => {
+  console.log("login state",state);
+return (
+  {
+    message: 'Log in',
+    error_message: state.auth.login_error
+  });
+};
 
 const mapDispatch = { login: loginAndGoToUser };
 // // equivalent to:
