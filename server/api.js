@@ -1,11 +1,11 @@
 
 
 const router = require('express').Router();
-const User = require('../db/index').User;
-const WRONG_EMAIL = require('../db/index').WRONG_EMAIL;
-const WRONG_PASSEORD = require('../db/index').WRONG_PASSEORD;
+const User = require('../db/models/user');
 const passport = require('passport');
+const Industry = require('../db/models/industry');
 
+//router.use('/industry', require('./industry'));
 
 // check currently-authenticated user, i.e. "who am I?"
 router.get('/me', function (req, res, next) {
@@ -53,7 +53,8 @@ router.post('/signup', function (req, res, next) {
     },
     defaults: { // if the user doesn't exist, create including this info
       //password: req.body.password
-      name: req.body.name,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       companyName: req.body.company,
       emplTitle: req.body.employeeTitle,
       industry: req.body.industry
@@ -123,7 +124,17 @@ router.delete('/logout', function (req, res, next) {
   res.sendStatus(204);
 });
 
+//router.use('/industry', require('./industry'));
+//router.use('/industry', require('./industry'));
 
+router.get('/industry',function(req,res,next) {
+    console.log('GOT INDUSTRIES - industry:',Industry);
+    Industry.findAll({})
+        .then( industries => {
+            console.log('GOT INDUSTRIES:',industries);
+            res.status(200).json(industries)})
+        .catch(next);
+      });
 module.exports = router;
 
 //incase a use asks for a non existing route
@@ -133,5 +144,3 @@ module.exports = router;
 //   err.status = 404;
 //   next(err);
 // });
-
-

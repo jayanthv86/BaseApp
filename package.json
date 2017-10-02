@@ -1,12 +1,13 @@
 {
-  "name": "basic-app",
+  "name": "Discover-ecommerce-webapp",
   "version": "1.0.0",
   "description": "basic app to start with",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/start.js",
-    "start-dev": "webpack -w &amp; nodemon server/start.js"
+    "start-dev": "webpack -w &amp; nodemon server/start.js",
+    "seed": "node seed"
   },
   "author": "",
   "license": "ISC",

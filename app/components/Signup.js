@@ -13,15 +13,24 @@ class Signup extends React.Component {
   }
 
   render(){
-  	const { message } = this.props;
+		const { message } = this.props;
+		const { industries } = this.props;
   	return(
   		<div className="container-fluid">
 				<h3 className="page-title">Sign Up</h3>
   		 <form className="col-sm-6" onSubmit={this.onSignupSubmit}>
 				<div className="form-group">
-					<label className="sign-field-title">Name</label>
+					<label className="sign-field-title">First Name</label>
 					<input 
-						name="name"
+						name="firstName"
+						type="name"
+						className="form-control sign-input"
+					/>
+  		  </div>
+				<div className="form-group">
+					<label className="sign-field-title">Last Name</label>
+					<input 
+						name="lastName"
 						type="name"
 						className="form-control sign-input"
 					/>
@@ -60,11 +69,13 @@ class Signup extends React.Component {
   		  </div>
 				<div className="form-group">
 					<label className="sign-field-title">Industry</label>
-					<input 
-						name="industry"
-						type="name"
-						className="form-control sign-input"
-					/>
+					<select name="Industries" className="form-control sign-input">
+						{
+							industries && industries.map((industry) => (
+								<option key={industry.id}>{industry.id} {industry.title}</option>
+							))
+						}
+					</select>
   		  </div>
   		  <button type="submit" className="btn btn-block btn-primary sign-input sign-btn">{message}</button>
   		 </form>
@@ -77,7 +88,8 @@ class Signup extends React.Component {
   onSignupSubmit(event) {
     event.preventDefault();
     const credentials = {
-			name: event.target.name.value,
+			firstName: event.target.firstName.value,
+			lastName: event.target.lastName.value,
       email: event.target.email.value,
 			password: event.target.password.value,
 			company:	event.target.companyName.value,
@@ -92,7 +104,10 @@ class Signup extends React.Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = () => ({ message: 'Sign up' });
+const mapState = (state) => ({
+	 message: 'Sign up',
+	 industries: state.industry.list
+	});
 
 const mapDispatch = { signup: signupAndGoToUser };
 
@@ -103,3 +118,10 @@ export default connect(mapState, mapDispatch)(Signup);
 
 
 
+/*
+<input 
+						name="industry"
+						type="name"
+						className="form-control sign-input"
+					/>
+ */

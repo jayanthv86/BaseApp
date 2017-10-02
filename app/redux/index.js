@@ -5,6 +5,7 @@ import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
     auth: require('./auth').default,
+    industry: require('./industry').default
   })
   
   export default rootReducer

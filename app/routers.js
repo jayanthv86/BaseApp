@@ -8,6 +8,7 @@ import UserDetail from './components/UserDetail';
 import Root from './components/Root';
 //import Logout from './components/Logout';
 import { retrieveLoggedInUser } from './redux/auth';
+import { fetchIndustries } from './redux/industry';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -30,6 +31,7 @@ const mapProps = null;
 const mapDispatch = dispatch => ({
   fetchInitialData: () => {
     dispatch(retrieveLoggedInUser());
+    dispatch(fetchIndustries());
   }
 });
 

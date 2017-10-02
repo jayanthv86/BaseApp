@@ -1,95 +1,54 @@
 var Sequelize = require('sequelize');
-const crypto = require('crypto');
-const _ = require('lodash');
+const pkg = require('../package.json');
+const chalk = require('chalk');
+const app = require('../APP');
+const name = (app.env.DATABASE_NAME || app.name) +
+(app.isTesting ? '_test' : '')
 
-const WRONG_EMAIL = '0';
-const WRONG_PASSEORD = '1';
+const connectionString = process.env.DATABASE_connectionString || `postgres://localhost:5432/${pkg.name}`;
 
-const db = new Sequelize('postgres://localhost:5432/1010DataUser', { 
-    logging: false 
+///////////////////////////////////////////////////////////////////////
+var databaseURI = `postgres://localhost:5432/${pkg.name}`;
+
+var db = module.exports = new Sequelize(databaseURI, {
+  logging: require('debug')('sql'),
+  define: {
+    timestamps: false,
+    underscored: true
+  },
+  logging: false
 });
 
-var User= db.define('user',{
-name: {
-  type: Sequelize.STRING
-},
-email: {
-  type: Sequelize.STRING,
-  isEmail: true,
-  allowNull: false
-},
-password: {
-type: Sequelize.STRING
- },
- salt: {
-  type: Sequelize.STRING
- },
- companyName: {
-  type: Sequelize.STRING
- },
- emplTitle: {
-  type: Sequelize.STRING
-},
- industry: {
-  type: Sequelize.STRING
- }
-},{
-  hooks: {
-		beforeCreate: setSaltAndPassword,
-    beforeUpdate: setSaltAndPassword
+// Object.assign(db, require('./models'));
+// console.log('DATA BASE AFTER ASSIGN',db);
+// // We'll also make sync available. It's sometimes useful in tests.
+// //{sync})
 
-	}
-});
+// //syncing all data bases
+// function sync(force=false, retries=0, maxRetries=5){
+//   console.log("^^^^^^%%%%%^^^got to sync");
+//   return db.sync({force})
+//   .then(ok => console.log(`Synced models to db ${connectionString}`))
+//   .catch(fail => {
+//     // Don't do this auto-create nonsense in prod, or
+//     // if we've retried too many times. 
+//     if (process.env.NODE_ENV === 'production' || retries > maxRetries) {
+//       console.error(chalk.red(`********** database error ***********`))
+//       console.error(chalk.red(`    Couldn't connect to ${connectionString}`))
+//       console.error()
+//       console.error(chalk.red(fail))
+//       console.error(chalk.red(`*************************************`))
+//       return
+//     }
+//     // Otherwise, do autocreate
+//     console.log(`${retries ? `[retry ${retries}]` : ''} Creating database ${name}...`)
+//     return new Promise((resolve, reject) =>
+//       require('child_process').exec(`createdb "${name}"`, resolve)
+//     ).then(() => sync(true, retries + 1)).catch((err)=>{console.log('EROR CREATEING DTATA BASE'.err)});
+//   })
 
-//class Methods
-User.encryptPassword = function(plainText, salt){
-  const hash = crypto.createHash('sha1');
-  hash.update(plainText);
-  hash.update(salt);
-  return hash.digest('hex');
+// } 
 
-}
+// db.didSync = sync();
 
-
-//instance Methods:
-User.prototype.correctPassword = function(candidatePassword){
-  return User.encryptPassword(candidatePassword, this.salt) === this.password;
-
-}
-
-User.prototype.sanitize = function(){
-  return _.omit(this.toJSON(), ['password', 'salt']);
-}
-
-
-
-function generateSalt1 () {
-	return crypto.randomBytes(16).toString('base64');	//Base64 a binary-to-text encoding
-}
-
-function encryptPassword1 (plainText, salt) {
-	const hash = crypto.createHash('sha1');
-	hash.update(plainText);
-	hash.update(salt);
-	return hash.digest('hex');
-}
-
-//setSaltAndPassword creates a salt and an encypted password 
-//for a user 
-function setSaltAndPassword (user) {
-  // we need to salt and hash again when the user enters their password for the first time
-  // and do it again whenever they change it
-  if (user.changed('password')) {
-    user.salt = generateSalt1();
-    user.password = encryptPassword1(user.password, user.salt);
-  }
-
-}
-
-module.exports = {
-   User: User,
-   WRONG_EMAIL: WRONG_EMAIL,
-   WRONG_PASSEORD: WRONG_PASSEORD
-
- };
-
+//module.exports = db;

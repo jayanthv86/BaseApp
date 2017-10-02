@@ -39,7 +39,7 @@ class Navbar extends React.Component {
   }
 
   renderLogout() {
-    const name = this.props.currentUser.name || this.props.currentUser.email;
+    const name = this.props.currentUser.fullName || this.props.currentUser.email;
     return (
       <ul className="nav navbar-nav navbar-right">
         <li>

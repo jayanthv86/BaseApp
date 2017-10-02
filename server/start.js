@@ -3,11 +3,13 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
-const db_user = require('../db/index').User; 
+//const db_user = require('../db/index').User; 
 const session = require('express-session');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 //const passport = require('passport');
+const pkg = require('../package.json'); 
+var db = require('../db/models');
 
 
 
@@ -71,18 +73,22 @@ const port = process.env.PORT || 3000; // this can be very useful if you deploy 
 
 
 //syncing the user table in the data base
-db_user.sync()  // sync our database
-  .then(function(){	// then start listening with our express server once we have synced
-    app.listen(port, function(){
-    	console.log(`*** starting server, listening on port ${port} ***`);
+// db_
 
-    }); 
-  })
-  .catch(function(error){
-  	console.log(error);
-  });
+const server = app.listen(
+  process.env.PORT || 3000,
+  () => {
+    console.log(`--- Started HTTP Server for ${pkg.name} ---`)      
+    console.log(`Listening on ${JSON.stringify(server.address())}`)
+    db.sync({})
+    .then(()=>{
+      console.log('---syncing db---');
+    });
+  }
+)
 
 
 
 
 
+//force: true

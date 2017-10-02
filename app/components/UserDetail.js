@@ -15,7 +15,7 @@ class UserDetail extends React.Component {
 					currentUser ?
 					<div>
 						<h1>Current user details</h1>
-						<h2>Email:{currentUser.email}</h2>
+						<h2>{currentUser.fullName}</h2>
 					</div>
 					:
 					<h1>No user is logged in</h1>
