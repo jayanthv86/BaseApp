@@ -36,7 +36,8 @@ const initialAuthState = {
         return Object.assign({}, state, {login_error: action.error_msg})
 
       default:
-        return initialAuthState;
+        //return initialAuthState;
+        return state;
   }
 }
 
@@ -57,7 +58,6 @@ const resToData = res => res.data;
 export const login = credentials => dispatch => {
   return axios.post('/api/login/local', credentials)
   .then((res) => {
-    console.log('in redux login res', res);
     dispatch(retrieveLoggedInUser());
     return resToData;
   }).catch(err => {
@@ -86,7 +86,6 @@ export const loginAndGoToUser = credentials => dispatch => {
   dispatch(login(credentials))
   .then(res => {
     if(typeof res === 'string'){
-      console.log("got back to login and go to user");
       return dispatch(login_error(res));
       //return browserHistory.push('/login'); //send a local stet error message to show on the screen
       //return dispatch(push('/login'));
@@ -120,7 +119,6 @@ export const retrieveLoggedInUser = () => dispatch => {
   axios.get('/api/me')
   .then(resToData)
   .then(user => {
-  	console.log("******* rerieve cure user, user", user);
   	return dispatch(set(user))})
   .catch(err => console.error('Problem fetching current user', err));
 };

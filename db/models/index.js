@@ -4,13 +4,27 @@ var db = require('../');
 var User = require('./user');
 var Employee_title = require('./employee_title');
 var Industry = require('./industry');
+var Timezone = require('./timezone');
+var Quantity_SKU = require('./quantity_SKU');
+var Data_set = require('./data_set');
 
 console.log('in assosiating idex user',User);
 console.log('in assosiating idex employee',Employee_title);
 console.log('in assosiating idex industry',Industry);
+console.log('in assosiating idex time zone',Timezone);
+console.log('in assosiating idex quantity and SKU',Quantity_SKU);
+console.log('in assosiating idex data set',Data_set );
+
+
 
 User.belongsTo(Employee_title,{through: 'employee_title_id'});
 User.belongsTo(Industry,{through: 'Industry_id'});
+User.belongsTo(Timezone,{through: 'Timezone_id'});
+User.belongsTo(Quantity_SKU,{through: 'Quantity_SKU_id'});
+User.belongsToMany(Data_set, {through: 'user_dataset'});
+Data_set.belongsToMany(User, {through: 'user_dataset'});
+
+console.log('DONE BELONGS TO');
 
 //module.exports = {User, Employee_title, Industry};
 module.exports = db;

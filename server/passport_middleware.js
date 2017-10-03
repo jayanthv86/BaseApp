@@ -44,42 +44,6 @@ passport.use(new localStrategy({
   }
 ));
 
-/*
-console.log('in logout req.user',req.user);
-  var user=null;
-  User.findAll({
-    where: {
-      email: req.body.email
-
-    }
-  }).then(users => {
-    //if there is no user with the input email - returns WRONG_EMAIL
-    console.log('findig all users, users', users);
-    if(!users.length)
-    {
-      res.status(401).send('Incorrect email');
-    }
-    user = users.filter(function(element) {
-      if(element.correctPassword(req.body.password))
-      {
-        return element;
-      }
-      
-    });
-    //if the password is incorrect - return wrong_password
-    if(!user)
-    {
-      res.status(401).send('Incorrect password');
-    }
-    //with Passport:
-      req.logIn(user[0], function (err) {
-        if (err) return next(err);
-        res.json(user[0]);
-      });
-
-  }).catch(next);
-    
- */
 
 
 

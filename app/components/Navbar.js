@@ -12,7 +12,6 @@ class Navbar extends React.Component {
   }
 //<nav id="discover-navbar" className="navbar navbar-light navbar-brand">
   render() {
-    console.log("in nav bar renser current user",this.props.currentUser);
     return (
         <nav id="discover-navbar" className="navbar navbar-light">
          <a className="navbar-brand" href="/">
@@ -58,7 +57,6 @@ class Navbar extends React.Component {
 
 
 const mapState = state => {
-    console.log("navbar state",state);
   return (
     {
         currentUser: state.auth.currentUser

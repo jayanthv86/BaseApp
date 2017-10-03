@@ -15,6 +15,7 @@ class Signup extends React.Component {
   render(){
 		const { message } = this.props;
 		const { industries } = this.props;
+		const { employeeTitles } = this.props;
   	return(
   		<div className="container-fluid">
 				<h3 className="page-title">Sign Up</h3>
@@ -61,15 +62,17 @@ class Signup extends React.Component {
   		  </div>
 				<div className="form-group">
 					<label className="sign-field-title">Employee Title</label>
-					<input 
-						name="employeeTitle"
-						type="name"
-						className="form-control sign-input"
-					/>
+					<select name="employeeTitle" className="form-control sign-input">
+						{
+							employeeTitles && employeeTitles.map((title) => (
+								<option key={title.id}>{title.id} {title.title}</option>
+							))
+						}
+					</select>
   		  </div>
 				<div className="form-group">
 					<label className="sign-field-title">Industry</label>
-					<select name="Industries" className="form-control sign-input">
+					<select name="industries" className="form-control sign-input">
 						{
 							industries && industries.map((industry) => (
 								<option key={industry.id}>{industry.id} {industry.title}</option>
@@ -86,15 +89,23 @@ class Signup extends React.Component {
 	"signup" to the data base
 	*/
   onSignupSubmit(event) {
-    event.preventDefault();
+		event.preventDefault();
+		//getting the employee title id and the industry id
+		let employeeTitleId = (event.target.employeeTitle.value).split(' ');
+		employeeTitleId = parseInt(employeeTitleId[0]);
+
+		let industryId = (event.target.industries.value).split(' ');
+		industryId = parseInt(industryId[0]);
+
+
     const credentials = {
 			firstName: event.target.firstName.value,
 			lastName: event.target.lastName.value,
       email: event.target.email.value,
 			password: event.target.password.value,
 			company:	event.target.companyName.value,
-			employeeTitle: event.target.employeeTitle.value,
-			industry:	event.target.industry.value
+			employeeTitle: employeeTitleId,
+			industry:	industryId
     };
     this.props.signup(credentials);
   }
@@ -105,8 +116,9 @@ class Signup extends React.Component {
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = (state) => ({
-	 message: 'Sign up',
-	 industries: state.industry.list
+	 message: 'Next',
+	 industries: state.industry.list,
+	 employeeTitles: state.employee_title.list
 	});
 
 const mapDispatch = { signup: signupAndGoToUser };

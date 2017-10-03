@@ -4,7 +4,10 @@ const router = require('express').Router();
 const User = require('../db/models/user');
 const passport = require('passport');
 const Industry = require('../db/models/industry');
-
+const Employee_title = require('../db/models/employee_title');
+const Timezone = require('../db/models/timezone');
+const QuantitySKU = require('../db/models/quantity_SKU');
+const Dataset = require('../db/models/data_set');
 //router.use('/industry', require('./industry'));
 
 // check currently-authenticated user, i.e. "who am I?"
@@ -56,8 +59,8 @@ router.post('/signup', function (req, res, next) {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       companyName: req.body.company,
-      emplTitle: req.body.employeeTitle,
-      industry: req.body.industry
+      employee_title_id: req.body.employeeTitle,
+      industry_id: req.body.industry
     }
   })
   .spread((user, created) => {
@@ -128,13 +131,56 @@ router.delete('/logout', function (req, res, next) {
 //router.use('/industry', require('./industry'));
 
 router.get('/industry',function(req,res,next) {
-    console.log('GOT INDUSTRIES - industry:',Industry);
+    //console.log('GOT INDUSTRIES - industry:',Industry);
     Industry.findAll({})
         .then( industries => {
             console.log('GOT INDUSTRIES:',industries);
             res.status(200).json(industries)})
         .catch(next);
       });
+
+
+
+//fetching employee title list
+router.get('/employee_title',function(req,res,next) {
+  console.log('GOT EMPLOYEE TITLES - TITLES:',Employee_title);
+  Employee_title.findAll({})
+      .then( titles => {
+          console.log('GOT titles:',titles);
+          res.status(200).json(titles)})
+      .catch(next);
+    });
+
+
+//fetching all time zones
+router.get('/timezone',function(req,res,next) {
+  Timezone.findAll({})
+      .then( timezones => {
+          console.log('GOT time zones:',timezones);
+          res.status(200).json(timezones)})
+      .catch(next);
+    });
+
+//fetching all quantities and SKUs
+router.get('/quantity_SKU',function(req,res,next) {
+  QuantitySKU.findAll({})
+      .then( values => {
+          console.log('GOT quantities and SKUs:',values);
+          res.status(200).json(values)})
+      .catch(next);
+    });
+
+
+//fgetching all data sets
+router.get('/dataset',function(req,res,next) {
+  Dataset.findAll({})
+      .then( values => {
+          console.log('GOT Data sets:',values);
+          res.status(200).json(values)})
+      .catch(next);
+    });
+
+
 module.exports = router;
 
 //incase a use asks for a non existing route

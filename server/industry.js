@@ -2,7 +2,6 @@ const Industry = require('../db/models/industry');
 
 module.exports = require('express').Router()
 .get('/industry',function(req,res,next) {
-    console.log('GOT INDUSTRIES:');
     Industry.findAll()
         .then( industries => {
             console.log('GOT INDUSTRIES:',industries);

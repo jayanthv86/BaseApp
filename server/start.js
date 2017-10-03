@@ -80,7 +80,7 @@ const server = app.listen(
   () => {
     console.log(`--- Started HTTP Server for ${pkg.name} ---`)      
     console.log(`Listening on ${JSON.stringify(server.address())}`)
-    db.sync({})
+    db.sync()
     .then(()=>{
       console.log('---syncing db---');
     });

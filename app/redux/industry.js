@@ -21,7 +21,8 @@ const getIndustries = industries =>({ type: GET_INDUSTRY_LST, industries });
         return Object.assign({}, state, {list: action.industries})
 
       default:
-        return initialIndustryState;
+        //return initialIndustryState;
+        return state;
   }
 }
 

@@ -9,6 +9,10 @@ import Root from './components/Root';
 //import Logout from './components/Logout';
 import { retrieveLoggedInUser } from './redux/auth';
 import { fetchIndustries } from './redux/industry';
+import { fetchEmployeeTitles } from './redux/employee_title';
+import { fetchTimezones } from './redux/timezone';
+import { fetchQuantitySKUs } from './redux/quantity_SKU';
+import { fetchDataSets } from './redux/data_set';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -31,7 +35,11 @@ const mapProps = null;
 const mapDispatch = dispatch => ({
   fetchInitialData: () => {
     dispatch(retrieveLoggedInUser());
+    dispatch(fetchEmployeeTitles());
     dispatch(fetchIndustries());
+    dispatch(fetchTimezones());
+    dispatch(fetchQuantitySKUs());
+    dispatch(fetchDataSets());
   }
 });
 
