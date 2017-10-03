@@ -9,6 +9,7 @@ dataset
  */
 import React from 'react';
 import { connect } from 'react-redux';
+import { signupAndGoToUSetPreferencesr } from '../redux/auth';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -69,6 +70,32 @@ class SignupPreferences extends React.Component{
         );
     }
     onSignupPreferencesSubmit(event) {
+        event.preventDefault();
+
+        //get the ids of: timezone, quantitySKU and datasets
+        let timeZAoneId = (event.target.timeZone.value).split(' ');
+        timeZAoneId = parseInt(timeZAoneId[0]);
+
+        let quantitySKUId = (event.target.quantitySKU.value).split(' ');
+        quantitySKUId = parseInt(quantitySKUId[0]);
+
+        let checkboxAtt = event.target.data_set.value;
+        console.log('ceckbox content', checkboxAtt);
 
     }
 }
+
+
+/* -----------------    CONTAINER     ------------------ */
+
+const mapState = (state) => ({
+    message: 'Next',
+    time_zones: state.time_zone.list,
+    quantity_SKUs: state.quantity_SKU.list,
+    data_sets: state.data_set.list
+
+   });
+
+const mapDispatch = { signup: signupAndGoToUSetPreferencesr };
+
+export default connect(mapState, mapDispatch)(SignupPreferences);

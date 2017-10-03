@@ -115,6 +115,14 @@ export const signupAndGoToUser = credentials => dispatch => {
   .catch(err => console.error('Problem signing up:', err));
 };
 
+//a function that sends signs the user in the data base and redirects
+//to the set-preferences page
+export const signupAndGoToUSetPreferencesr = credentials => dispatch => {
+  dispatch(signup(credentials))
+  .then(user => browserHistory.push('/signpreferences'))
+  .catch(err => console.error('Problem signing up:', err));
+};
+
 export const retrieveLoggedInUser = () => dispatch => {
   axios.get('/api/me')
   .then(resToData)
