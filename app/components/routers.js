@@ -23,7 +23,7 @@ const Routes = ({ fetchInitialData }) => (
       <IndexRoute component={Home} />
       <Route path="login" component={Login} />
       <Route path="signup" component={Signup} />
-      <Route path="signup_preferences" component={SignupPreferences} />
+      <Route path="signup_preferences" componenet={SignupPreferences} />
       <Route path="users/:id" component={UserDetail} />
     </Route>
     <Route path="*" component={Home} />

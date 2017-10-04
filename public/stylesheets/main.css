@@ -35,3 +35,9 @@
 #login_err{
     color:#B22222;
 }
+
+#dataset-label{
+    color: #F4A460;
+    padding-right: 10px;
+    padding-left: 10px;
+}

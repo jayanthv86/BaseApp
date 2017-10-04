@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { signupAndGoToUser } from '../redux/auth';
+import { signupAndGoToUser,signupAndGoToUSetPreferences } from '../redux/auth';
 
 
 /* -----------------    COMPONENT     ------------------ */
@@ -106,7 +106,7 @@ class Signup extends React.Component {
 			company:	event.target.companyName.value,
 			employeeTitle: employeeTitleId,
 			industry:	industryId
-    };
+		};
     this.props.signup(credentials);
   }
 
@@ -121,7 +121,7 @@ const mapState = (state) => ({
 	 employeeTitles: state.employee_title.list
 	});
 
-const mapDispatch = { signup: signupAndGoToUser };
+const mapDispatch = { signup: signupAndGoToUSetPreferences };
 
 
 export default connect(mapState, mapDispatch)(Signup);

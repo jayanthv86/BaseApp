@@ -48,7 +48,6 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/signup', function (req, res, next) {
-  console.log('in signup api req.body',req.body);
   User.findOrCreate({
     where: {
       email: req.body.email,
@@ -75,6 +74,25 @@ router.post('/signup', function (req, res, next) {
     } else {
       res.sendStatus(401); // this user already exists, you cannot sign up
     }
+  })
+  .catch(next);
+});
+
+
+
+//put request to add preferences to a newly created user
+router.put('/signup', function (req, res, next) {
+  console.log('in put user', req.user);
+  
+  User.findById(req.user.id)
+  .then((user) => {
+    user.addData_sets(req.body.datasetIds);
+    user.update({
+      time_zone_id: req.body.time_zone_id,
+      quantity__s_k_u_id: req.body.quantity_s_k_u_id
+
+    })
+    res.status(201).json(user);
   })
   .catch(next);
 });

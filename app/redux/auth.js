@@ -108,6 +108,17 @@ export const signup = credentials => dispatch => {
   });
 };
 
+//signPreferences: update the new created user with their preferences
+//step2 in signup process
+export const signupPreferences = credentials => dispatch => {
+  return axios.put('/api/signup', credentials)
+  .then(resToData)
+  .then(user => {
+    dispatch(set(user)); // set current user
+    return user;
+  });
+};
+
 
 export const signupAndGoToUser = credentials => dispatch => {
   dispatch(signup(credentials))
@@ -117,9 +128,16 @@ export const signupAndGoToUser = credentials => dispatch => {
 
 //a function that sends signs the user in the data base and redirects
 //to the set-preferences page
-export const signupAndGoToUSetPreferencesr = credentials => dispatch => {
+export const signupAndGoToUSetPreferences = credentials => dispatch => {
   dispatch(signup(credentials))
-  .then(user => browserHistory.push('/signpreferences'))
+  .then(user => browserHistory.push('/signup_preferences'))
+  .catch(err => console.error('Problem signing up:', err));
+};
+
+//signup and go to payment
+export const signupAndGoToPayment = credentials => dispatch => {
+  dispatch(signupPreferences(credentials))
+  .then(user => browserHistory.push('/home'))
   .catch(err => console.error('Problem signing up:', err));
 };
 
