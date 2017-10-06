@@ -9,7 +9,8 @@ const rootReducer = combineReducers({
     employee_title: require('./employee_title').default,
     time_zone: require('./timezone').default,
     quantity_SKU: require('./quantity_SKU').default,
-    data_set: require('./data_set').default
+    data_set: require('./data_set').default,
+    company: require('./company').default
   })
   
   export default rootReducer

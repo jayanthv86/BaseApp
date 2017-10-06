@@ -7,6 +7,7 @@ import Signup from './components/Signup';
 import UserDetail from './components/UserDetail';
 import Root from './components/Root';
 import SignupPreferences from './components/SignupPreferences';
+import addCompany from './components/addCompany';
 //import Logout from './components/Logout';
 import { retrieveLoggedInUser } from './redux/auth';
 import { fetchIndustries } from './redux/industry';
@@ -22,7 +23,9 @@ const Routes = ({ fetchInitialData }) => (
     <Route path="/" component={Root} onEnter={fetchInitialData}>
       <IndexRoute component={Home} />
       <Route path="login" component={Login} />
-      <Route path="signup" component={Signup} />
+      <Route path="signup" component={Signup} >
+        <Route path="/add_company" component={addCompany}/>
+      </Route>
       <Route path="signup_preferences" componenet={SignupPreferences} />
       <Route path="users/:id" component={UserDetail} />
     </Route>

@@ -8,6 +8,7 @@ const Employee_title = require('../db/models/employee_title');
 const Timezone = require('../db/models/timezone');
 const QuantitySKU = require('../db/models/quantity_SKU');
 const Dataset = require('../db/models/data_set');
+const Company = require('../db/models/company');
 //router.use('/industry', require('./industry'));
 
 // check currently-authenticated user, i.e. "who am I?"
@@ -57,7 +58,8 @@ router.post('/signup', function (req, res, next) {
       //password: req.body.password
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      companyName: req.body.company,
+      company_id: req.body.company_id,
+      account_state: req.body.accoun_state,
       employee_title_id: req.body.employeeTitle,
       industry_id: req.body.industry
     }
@@ -86,12 +88,27 @@ router.put('/signup', function (req, res, next) {
   
   User.findById(req.user.id)
   .then((user) => {
-    user.addData_sets(req.body.datasetIds);
-    user.update({
-      time_zone_id: req.body.time_zone_id,
-      quantity__s_k_u_id: req.body.quantity_s_k_u_id
+    if(req.body.paymentAmount){
+      user.update({
+        payment_amount: req.body.paymentAmount
+      });
 
-    })
+    }
+    if(req.body.datasetIds){
+      user.addData_sets(req.body.datasetIds);
+    }
+    if(req.body.time_zone_id){
+      user.update({
+        time_zone_id: req.body.time_zone_id
+      });
+
+    }
+    if(req.body.quantity_s_k_u_id){
+      user.update({
+        quantity__s_k_u_id: req.body.quantity_s_k_u_id
+      });
+
+    }
     res.status(201).json(user);
   })
   .catch(next);
@@ -197,6 +214,37 @@ router.get('/dataset',function(req,res,next) {
           res.status(200).json(values)})
       .catch(next);
     });
+
+//fetching all companies or the account_state options
+router.get('/company',function(req,res,next) {
+  if(req.query.state === 'true'){
+    console.log('GOT QUERY');
+    let accountStates = Company.rawAttributes.account_state.values;
+    res.status(200).send(accountStates);
+
+  }
+  else{
+    Company.findAll({})
+    .then( values => {
+        console.log('GOT Data sets:',values);
+        res.status(200).json(values)})
+    .catch(next);
+  }
+});
+
+//adding a new company to the companies table
+router.put('/api/company', function(req,res,next){
+  Company.create({
+    name: req.body.name,
+    account_state: req.body.account_state,
+    industry_id: req.body.industry_id
+
+  }).then((company)=>{
+    res.status(201).json(company);
+
+  }).catch(next);
+
+});
 
 
 module.exports = router;

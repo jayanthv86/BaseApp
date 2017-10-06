@@ -121,7 +121,7 @@ export const signupPreferences = credentials => dispatch => {
 
 
 export const signupAndGoToUser = credentials => dispatch => {
-  dispatch(signup(credentials))
+  dispatch(signupPreferences(credentials))
   .then(user => browserHistory.push(`/users/${user.id}`))
   .catch(err => console.error('Problem signing up:', err));
 };
@@ -137,7 +137,7 @@ export const signupAndGoToUSetPreferences = credentials => dispatch => {
 //signup and go to payment
 export const signupAndGoToPayment = credentials => dispatch => {
   dispatch(signupPreferences(credentials))
-  .then(user => browserHistory.push('/home'))
+  .then(user => browserHistory.push('/signup_payment'))
   .catch(err => console.error('Problem signing up:', err));
 };
 

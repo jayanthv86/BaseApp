@@ -6,8 +6,21 @@ var EmployeeTitle = require('./db/models/employee_title');
 var Timezone = require('./db/models/timezone');
 var Quantity_SKU = require('./db/models/quantity_SKU');
 var Data_set = require('./db/models/data_set');
+var Company = require('./db/models/company');
 var Promise = require('bluebird');
 
+function getIndustryIdByTiltle (industries,title) {
+    //console.log('Indestries',industries);
+    for(let i=0;i<industries.length;i++){
+        if(industries[i].dataValues.title===title){
+            console.log(industries[i].dataValues.id);
+            return industries[i].dataValues.id;
+
+        }
+
+    }
+
+}
 
 function generateIndustries () {
     var industries=[];
@@ -34,6 +47,9 @@ function generateIndustries () {
     }));
     industries.push(Industry.build({
         title: 'Utilities'
+    }));
+    industries.push(Industry.build({
+        title: 'No Industry'
     }));
     return industries;
 
@@ -304,6 +320,43 @@ function generateDataSets () {
 
 }
 
+//generates company table content with 4 companies
+function generateCompanies (industries) {
+    var companies =[];
+
+    companies.push(Company.build({
+        name: 'New Company',
+        account_state: 'trial',
+        industry_id: getIndustryIdByTiltle(industries,'No Industry') 
+    }));
+    companies.push(Company.build({
+        name: 'TOPSHOP',
+        account_state: 'trial',
+        industry_id: getIndustryIdByTiltle(industries,'Retail') 
+    }));
+
+    companies.push(Company.build({
+        name: 'T-Mobile',
+        account_state: 'active',
+        industry_id: getIndustryIdByTiltle(industries,'Telecom')  
+
+    }));
+    companies.push(Company.build({
+        name: 'Cibo',
+        account_state: 'inactive',
+        industry_id: getIndustryIdByTiltle(industries,'Advertising')   
+    }));
+    companies.push(Company.build({
+        name: 'Dell',
+        account_state: 'trial',
+        industry_id: getIndustryIdByTiltle(industries,'Technology') 
+    }));
+
+    return companies;
+
+}
+
+
 function createIndustries () {
     return Promise.map(generateIndustries(), function (industryTitle) {
       return industryTitle.save();
@@ -336,8 +389,18 @@ function createDataSet () {
     });
 }
 
+//creates the the rowes to be added to the Company table
+function createCompany (industries) {
+    return Promise.map(generateCompanies(industries), function (value) {
+      return value.save();
+    });
+}
+
 function seed () {
     return createIndustries()
+    .then(function (industries) {
+        return createCompany(industries)
+    })
     .then(function () {
       return createEmployeeTitles()
     })

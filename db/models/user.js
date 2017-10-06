@@ -28,8 +28,11 @@ const User = module.exports =  db.define('user',{
      salt: {
       type: Sequelize.STRING
      },
-     companyName: {
-      type: Sequelize.STRING
+     account_state: {
+      type: Sequelize.ENUM('trial','active','inactive','deleted')
+     },
+     payment_amount: {
+         type: Sequelize.INTEGER
      }
      
     },{

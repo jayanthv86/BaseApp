@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { hashHistory,browserHistory } from 'react-router';
 import { signupAndGoToUser,signupAndGoToUSetPreferences } from '../redux/auth';
 
 
@@ -9,13 +10,15 @@ class Signup extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onSignupSubmit = this.onSignupSubmit.bind(this);
+		this.onSignupSubmit = this.onSignupSubmit.bind(this);
+		this.checkAndDisplayNewCompanyForm = this.checkAndDisplayNewCompanyForm.bind(this);
   }
 
   render(){
 		const { message } = this.props;
 		const { industries } = this.props;
 		const { employeeTitles } = this.props;
+		const { companies } = this.props;
   	return(
   		<div className="container-fluid">
 				<h3 className="page-title">Sign Up</h3>
@@ -54,12 +57,18 @@ class Signup extends React.Component {
   		  </div>
 				<div className="form-group">
 					<label className="sign-field-title">Company Name</label>
-					<input 
-						name="companyName"
-						type="name"
-						className="form-control sign-input"
-					/>
+					<select name="company" className="form-control sign-input" onChange={this.checkAndDisplayNewCompanyForm}>
+						{
+							companies && companies.map((name) => (
+								<option key={name.id}>{name.id} {name.name}</option>
+							))
+						}
+					</select>
   		  </div>
+				{this.props.children}
+				<div>
+
+				</div>
 				<div className="form-group">
 					<label className="sign-field-title">Employee Title</label>
 					<select name="employeeTitle" className="form-control sign-input">
@@ -94,21 +103,50 @@ class Signup extends React.Component {
 		let employeeTitleId = (event.target.employeeTitle.value).split(' ');
 		employeeTitleId = parseInt(employeeTitleId[0]);
 
+		//getting the industry id
 		let industryId = (event.target.industries.value).split(' ');
 		industryId = parseInt(industryId[0]);
 
+		//getting the company id
+		let companyId = (event.target.company.value).split(' ');
+		companyId = parseInt(companyId[0]);
 
+		//finding the company's account state
+		let companies = this.props.companies;
+		let company = companies.filter((element) => {
+			return (event.target.company.value.includes(element.name));
+			}
+		);
+		
+		let accountState = company[0].account_state
     const credentials = {
 			firstName: event.target.firstName.value,
 			lastName: event.target.lastName.value,
       email: event.target.email.value,
 			password: event.target.password.value,
-			company:	event.target.companyName.value,
+			company_id:	companyId,
 			employeeTitle: employeeTitleId,
-			industry:	industryId
+			industry:	industryId,
+			accoun_state: accountState
 		};
     this.props.signup(credentials);
-  }
+	}
+	
+	checkAndDisplayNewCompanyForm(event){
+		const { industries } = this.props;
+		//let name = event.target.value.split(' ');
+		let spaceIndex = event.target.value.indexOf(' ');
+		let name = event.target.value.slice(spaceIndex+1);
+		//debugger;
+		//name = name[1];
+		console.log('about to render add company form');
+		if(name === "New Company"){
+			browserHistory.push('add_company');
+
+		}
+		console.log('got change###@@##@@',event.target.value);
+
+	}
 
 }
 
@@ -118,7 +156,8 @@ class Signup extends React.Component {
 const mapState = (state) => ({
 	 message: 'Next',
 	 industries: state.industry.list,
-	 employeeTitles: state.employee_title.list
+	 employeeTitles: state.employee_title.list,
+	 companies: state.company.list
 	});
 
 const mapDispatch = { signup: signupAndGoToUSetPreferences };
@@ -130,10 +169,3 @@ export default connect(mapState, mapDispatch)(Signup);
 
 
 
-/*
-<input 
-						name="industry"
-						type="name"
-						className="form-control sign-input"
-					/>
- */
