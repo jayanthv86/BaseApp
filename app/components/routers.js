@@ -23,9 +23,8 @@ const Routes = ({ fetchInitialData }) => (
     <Route path="/" component={Root} onEnter={fetchInitialData}>
       <IndexRoute component={Home} />
       <Route path="login" component={Login} />
-      <Route path="signup" component={Signup} >
-        <Route path="/add_company" component={addCompany}/>
-      </Route>
+      <Route path="signup" component={Signup} />
+      <Route path="add_company" component={addCompany}/>
       <Route path="signup_preferences" componenet={SignupPreferences} />
       <Route path="users/:id" component={UserDetail} />
     </Route>

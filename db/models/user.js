@@ -33,6 +33,9 @@ const User = module.exports =  db.define('user',{
      },
      payment_amount: {
          type: Sequelize.INTEGER
+     },
+     admin: {
+         type: Sequelize.BOOLEAN  
      }
      
     },{

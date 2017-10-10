@@ -20,7 +20,6 @@ console.log('in assosiating idex company',Company );
 
 
 User.belongsTo(Employee_title,{through: 'employee_title_id'});
-User.belongsTo(Industry,{through: 'Industry_id'});
 User.belongsTo(Timezone,{through: 'Timezone_id'});
 User.belongsTo(Quantity_SKU,{through: 'Quantity_SKU_id'});
 User.belongsTo(Company, {through: 'company_id'});

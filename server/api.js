@@ -16,6 +16,7 @@ router.get('/me', function (req, res, next) {
   // with Passport:
   console.log("req .session",req.session);
   console.log("%%%%%%%%req .session",req.session);
+  
   res.send(req.user);
 
   
@@ -61,7 +62,7 @@ router.post('/signup', function (req, res, next) {
       company_id: req.body.company_id,
       account_state: req.body.accoun_state,
       employee_title_id: req.body.employeeTitle,
-      industry_id: req.body.industry
+      admin: req.body.admin
     }
   })
   .spread((user, created) => {
@@ -86,7 +87,9 @@ router.post('/signup', function (req, res, next) {
 router.put('/signup', function (req, res, next) {
   console.log('in put user', req.user);
   
-  User.findById(req.user.id)
+  User.findById(req.user.id,{
+    include: [ Dataset ]
+  })
   .then((user) => {
     if(req.body.paymentAmount){
       user.update({

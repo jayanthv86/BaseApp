@@ -2,13 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import { logout } from '../redux/auth';
+import  { NavDropdown, MenuItem } from 'react-bootstrap'
 /* -----------------    COMPONENT     ------------------ */
 
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
     this.renderLoginSignup = this.renderLoginSignup.bind(this);
-    this.renderLogout = this.renderLogout.bind(this);
+    this.renderLogoutAndSettings = this.renderLogoutAndSettings.bind(this);
+    this.settingsSelect = this.settingsSelect.bind(this);
   }
 //<nav id="discover-navbar" className="navbar navbar-light navbar-brand">
   render() {
@@ -18,7 +20,10 @@ class Navbar extends React.Component {
              <img id="logo" src="/images/1010data_Logo_2016.png" width="200" className="d-inline-block align-top" alt=""/>
         </a>
         <div className="collapse navbar-collapse">
-        { this.props.currentUser ? this.renderLogout() : this.renderLoginSignup() }
+        { 
+            this.props.currentUser ? this.renderLogoutAndSettings() : this.renderLoginSignup()
+            
+        }
         </div>
        </nav>
     );
@@ -37,10 +42,19 @@ class Navbar extends React.Component {
     );
   }
 
-  renderLogout() {
+  renderLogoutAndSettings() {
     const name = this.props.currentUser.fullName || this.props.currentUser.email;
     return (
       <ul className="nav navbar-nav navbar-right">
+          {
+            this.props.currentUser.admin ? 
+            <NavDropdown title="Settings" id="nav-dropdown" onSelect={this.settingsSelect}>
+                <MenuItem name="user" eventKey="1">User</MenuItem>
+                <MenuItem name="companies" eventKey="2">Companies</MenuItem>
+            </NavDropdown>
+            :
+            null
+        }
         <li>
         <button
           className="navbar-btn btn btn-default sign-btn"
@@ -48,9 +62,24 @@ class Navbar extends React.Component {
           logout {name}
         </button>
         </li>
-      </ul>
+     </ul>
     );
   }
+
+  settingsSelect(eventKey) {
+      //event.preventDefault();
+      console.log('got to setting select event key',eventKey);
+      switch(eventKey){
+          case '1':
+             return  browserHistory.push('/user_settings');
+             break;
+        case '2':
+            return browserHistory.push('/companies_settings');
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 /* -----------------    CONTAINER     ------------------ */
@@ -75,3 +104,5 @@ const mapState = state => {
 const mapDispatch = { logout: logout };
 
 export default connect(mapState, mapDispatch)(Navbar);
+
+//(this.props.currentUser && this.props.currentUser.admin) ? this.renderSettings() : null
