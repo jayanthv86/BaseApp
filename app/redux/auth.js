@@ -156,5 +156,24 @@ export const logout = () => dispatch => {
   .then(err => console.log('logout unsuccessful', err));
 };
 
+export const updateUserAccount = (userId, credentials) => dispatch => {
+  return axios.put('/api/${userId}', credentials) //////$$$$continue here
+  .then(resToData)
+  .then(user => {
+    dispatch(set(user)); // set current user
+    browserHistory.push(`/users/${user.id}`);
+    return user;
+  });
+};
+
+
+/*
+dispatch => {
+  dispatch(update(credentials))
+  .then(user => browserHistory.push('/signup_payment'))
+  .catch(err => console.error('Problem signing up:', err));
+};
+*/
+
 
 

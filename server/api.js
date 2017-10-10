@@ -16,6 +16,7 @@ router.get('/me', function (req, res, next) {
   // with Passport:
   console.log("req .session",req.session);
   console.log("%%%%%%%%req .session",req.session);
+  console.log('req.user:::::',req.user);
   
   res.send(req.user);
 
@@ -85,7 +86,7 @@ router.post('/signup', function (req, res, next) {
 
 //put request to add preferences to a newly created user
 router.put('/signup', function (req, res, next) {
-  console.log('in put user', req.user);
+  console.log('in put signup user', req.user);
   
   User.findById(req.user.id,{
     include: [ Dataset ]
@@ -116,6 +117,22 @@ router.put('/signup', function (req, res, next) {
   })
   .catch(next);
 });
+
+//updating user's information
+router.put('/:userId', function(req,res,next){
+  const id = req.params.userId;
+  User.findById(id)
+  .then(user => {
+    return user.update(req.body);
+  })
+  .then(user => {
+    res.status(200).json(user);
+  })
+  .catch(next);
+
+});
+
+
 
 // login, i.e. "you remember `me`, right?"
 // router.post('/login', function (req, res, next) {
