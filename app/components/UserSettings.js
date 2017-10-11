@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { hashHistory,browserHistory } from 'react-router';
-import { updateUserAccount } from '../redux/auth';
+import { updateUserAccount, setCompany } from '../redux/auth';
 
 /* -----------------    COMPONENT     ------------------ */
 class UserSettings extends React.Component {
@@ -31,6 +31,7 @@ class UserSettings extends React.Component {
             let keyId = 1;
             let curCompanyAccountState = this.getCompoanyAccountState(user.company_id);
             const account_states = this.getAccountStates(curCompanyAccountState);
+            console.log('in usersettings render');
 
           return(
               <div className="container-fluid">
@@ -42,7 +43,7 @@ class UserSettings extends React.Component {
                             name="firstName"
                             type="name"
                             className="form-control sign-input"
-                            value={user.firstName}
+                            defaultValue={user.firstName}
                         />
                 </div>
                     <div className="form-group">
@@ -51,7 +52,7 @@ class UserSettings extends React.Component {
                             name="lastName"
                             type="name"
                             className="form-control sign-input"
-                            value={user.lastName}
+                            defaultValue={user.lastName}
                         />
                 </div>
                 <div className="form-group">
@@ -60,7 +61,7 @@ class UserSettings extends React.Component {
                   name="email"
                   type="email"
                   className="form-control sign-input"
-                  value={user.email}
+                  defaultValue={user.email}
                  />
                 </div>
                 <div className="form-group">
@@ -73,7 +74,7 @@ class UserSettings extends React.Component {
                 </div>
                     <div className="form-group">
                         <label className="sign-field-title">Company Name</label>
-                        <select value={user.company_id} name="company" className="form-control sign-input" onChenge={this.onChangeCompany}>
+                        <select defaultValue={user.company_id} name="company" className="form-control sign-input" onChange={this.onChangeCompany}>
                             {
                                 companies && companies.map((name) => (
                                     <option key={name.id} value={name.id } >{name.name}</option> 
@@ -83,7 +84,7 @@ class UserSettings extends React.Component {
                     </div>
                     <div className="form-group">
                         <label className="sign-field-title">Employee Title</label>
-                        <select name="employeeTitle" className="form-control sign-input" value={user.employee_title_id}>
+                        <select name="employeeTitle" className="form-control sign-input" defaultValue={user.employee_title_id}>
                             {
                                 employeeTitles && employeeTitles.map((title) => (
                                     <option key={title.id} value={title.id}>{title.title}</option> 
@@ -103,7 +104,7 @@ class UserSettings extends React.Component {
                 </div>
                 <div className="form-group">
                     <label className="sign-field-title">Time Zone</label>
-                    <select name="timeZone" className="form-control sign-input" value={user.time_zone_id}>
+                    <select name="timeZone" className="form-control sign-input" defaultValue={user.time_zone_id}>
                     {
                         time_zones && time_zones.map((timeZone) => (
                             <option key={timeZone.id} value={timeZone.id}>{timeZone.time_zone}</option>
@@ -113,7 +114,7 @@ class UserSettings extends React.Component {
   		        </div>
                   <div className="form-group">
                         <label className="sign-field-title">Quantity and SKU</label>
-                        <select name="quantitySKU" className="form-control sign-input" value={user.quantity__s_k_u_id}>
+                        <select name="quantitySKU" className="form-control sign-input" defaultValue={user.quantity__s_k_u_id}>
                         {
                             quantity_SKUs && quantity_SKUs.map((quantitySKU) => (
                                 <option key={quantitySKU.id} value={quantitySKU.id}>{quantitySKU.range_value}</option>
@@ -156,9 +157,19 @@ class UserSettings extends React.Component {
         }
 
         /* ------------------- Event handling functions ------------------- */
-    
+        
+        /*
+        when a user changes his/hers company choice
+        the account_state options should be changed according
+        to the following logic:
+        company: trial --> user: trial,inactive,deleted
+        company: inactive --> user: inactive, deleted
+        company: active --> user: active,inactive,deleted
+        company: deleted --> user: deleted
+         */
         onChangeCompany(event){
-
+            return this.props.setUserCompoanyId(event.target.value);
+         
         }
 
         /*
@@ -169,19 +180,19 @@ class UserSettings extends React.Component {
             let firstName=event.target.firstName.value;
             let lastName=event.target.lastName.value;
             let email=event.target.email.value;
-            let companyId=this.findCompanyId(event.target.company.value);
-            let employeeTitleId=this.findEmployeeTitleId(event.target.employeeTitle.value);
+            let companyId=parseInt(event.target.company.value);
+            let employeeTitleId=parseInt(event.target.employeeTitle.value);
             let account_state=event.target.accountState.value;
-            let timeZoneId=this.findTimeZoneId(event.target.timeZone.value);
-            let quantitySKUId=this.findQuantitySKUId(event.target.quantitySKU.value);
+            let timeZoneId=parseInt(event.target.timeZone.value);
+            let quantitySKUId=parseInt(event.target.quantitySKU.value);
             let datasetIds=[];
             let payment=event.target.paymentAmount.value;
             let checkboxes = event.target.data_set;
-
+            console.log('data sets',this.props.data_sets);
             //geeting the data sets ids from the checked data sets
             for(let i=0;i<checkboxes.length;i++){
                 if(checkboxes[i].checked){
-                    datasetIds.push(data_sets[i].id);
+                    datasetIds.push(this.props.data_sets[i].id);
     
     
                 }
@@ -319,10 +330,14 @@ const mapState = (state) => ({
     quantity_SKUs: state.quantity_SKU.list,
     data_sets: state.data_set.list,
     user: state.auth.currentUser,
-    account_states: state.company.accountStates     //need to be changed to take a reduce list according to the cpompany state
+    account_states: state.company.accountStates,
+    company_id: state.auth.currentUser.company_id     
  });
 
-const mapDispatch = { update: updateUserAccount };/*<some update function that will be dispached>*/ 
+const mapDispatch = { 
+    update: updateUserAccount,
+    setUserCompoanyId: setCompany
+ }; 
 
 
 export default connect(mapState, mapDispatch)(UserSettings);

@@ -5,13 +5,15 @@ import { push } from 'react-router-redux'
 /* ------------------    ACTIONS    --------------------- */
 const SET = 'SET_CURRENT_USE';
 const REMOVE = 'REMOVE_CURRENT_USER';
-const LOGIN_ERROR = 'LOGIN_ERROR'
+const LOGIN_ERROR = 'LOGIN_ERROR';
+const SET_COMPANY = 'SET_COMPANY';
 
 /* --------------    ACTION CREATORS    ----------------- */
 
 const set     = user => ({ type: SET, user });
 const remove  = () => ({ type: REMOVE });
 const login_error = (error_msg) => ({type: LOGIN_ERROR, error_msg});
+const set_company = (companyId) => ({type: SET_COMPANY, companyId});
 
 /* ------------------    REDUCER    --------------------- */
 
@@ -22,19 +24,21 @@ const initialAuthState = {
 
 //export default function reducer (currentUser = null, action) {
   export default function reducer (state=initialAuthState, action) {
+    const newState = Object.assign({}, state);
     switch (action.type) {
 
       case SET:
-        //return action.user;
         return Object.assign({}, state, {currentUser: action.user, login_error: ""})
 
       case REMOVE:
-        //return null;
         return Object.assign({}, state, {currentUser: null})
 
       case LOGIN_ERROR:
         return Object.assign({}, state, {login_error: action.error_msg})
 
+      case SET_COMPANY:
+        newState.currentUser.company_id = parseInt(action.companyId);
+        return newState;
       default:
         //return initialAuthState;
         return state;
@@ -157,16 +161,19 @@ export const logout = () => dispatch => {
 };
 
 export const updateUserAccount = (userId, credentials) => dispatch => {
-  return axios.put('/api/${userId}', credentials) //////$$$$continue here
+  console.log('got to updateUserAccount',userId,credentials);
+  return axios.put(`/api/${userId}`, credentials) //////$$$$continue here
   .then(resToData)
   .then(user => {
     dispatch(set(user)); // set current user
-    browserHistory.push(`/users/${user.id}`);
+    //browserHistory.push(`/users/${user.id}`);
     return user;
   });
 };
 
-
+export const setCompany = (compoanyId) => dispatch => {
+  return dispatch(set_company(compoanyId));
+}
 /*
 dispatch => {
   dispatch(update(credentials))

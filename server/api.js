@@ -120,7 +120,9 @@ router.put('/signup', function (req, res, next) {
 
 //updating user's information
 router.put('/:userId', function(req,res,next){
+  console.log('got to user id put');
   const id = req.params.userId;
+  console.log('user id',id);
   User.findById(id)
   .then(user => {
     return user.update(req.body);
