@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@okta/okta-react": "0.0.7",
     "axios": "^0.16.2",
     "body-parser": "^1.18.1",
     "bootstrap": "^3.3.7",

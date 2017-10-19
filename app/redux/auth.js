@@ -166,7 +166,7 @@ export const updateUserAccount = (userId, credentials) => dispatch => {
   .then(resToData)
   .then(user => {
     dispatch(set(user)); // set current user
-    //browserHistory.push(`/users/${user.id}`);
+    browserHistory.push(`/users/${user.id}`);
     return user;
   });
 };
