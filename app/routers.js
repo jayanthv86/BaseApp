@@ -17,12 +17,22 @@ import { fetchEmployeeTitles } from './redux/employee_title';
 import { fetchTimezones } from './redux/timezone';
 import { fetchQuantitySKUs } from './redux/quantity_SKU';
 import { fetchDataSets } from './redux/data_set';
-import { fetchDCompanies, fetchAccountStates } from './redux/company'
+import { fetchDCompanies, fetchAccountStates } from './redux/company';
+import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
+
+const config = {
+  issuer: 'https://dev-439609.oktapreview.com/oauth2/default',
+  redirectUri: window.location.origin + '/implicit/callback',
+  clientId: '0oachhmeflH8pRSIB0h7'
+}
 
 /* -----------------    COMPONENT     ------------------ */
 
 const Routes = ({ fetchInitialData }) => (
   <Router history={browserHistory}>
+    <Security issuer={config.issuer}
+              client_id={config.clientId}
+              redirect_uri={config.redirect_uri}>
     <Route path="/" component={Root} onEnter={fetchInitialData}>
       <IndexRoute component={Home} />
       <Route path="login" component={Login} />
@@ -31,8 +41,10 @@ const Routes = ({ fetchInitialData }) => (
       <Route path="signup_payment" component={SignupPayment} />
       <Route path="users/:id" component={UserDetail} />
       <Route path="user_settings" component={UserSettings}/>
+      <Route path="implicit/callback" component={ImplicitCallback} />
     </Route>
     <Route path="*" component={Home} />
+   </Security>
   </Router>
 );
 
