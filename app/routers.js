@@ -21,9 +21,9 @@ import { fetchDCompanies, fetchAccountStates } from './redux/company';
 import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
 
 const config = {
-  issuer: 'https://dev-439609.oktapreview.com/oauth2/default',
+  issuer: 'https://dev-120406.oktapreview.com/oauth2/default',
   redirectUri: window.location.origin + '/implicit/callback',
-  clientId: '0oachhmeflH8pRSIB0h7'
+  clientId: '0oacmp72gaMZcB9nX0h7'
 }
 
 /* -----------------    COMPONENT     ------------------ */

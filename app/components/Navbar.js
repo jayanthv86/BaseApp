@@ -1,16 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
-import { logout } from '../redux/auth';
+//import { logout } from '../redux/auth';
 import  { NavDropdown, MenuItem } from 'react-bootstrap'
 import { withAuth } from '@okta/okta-react';
+import {OktaAuth} from '@okta/okta-auth-js';
 
 /* -----------------    COMPONENT     ------------------ */
 
 
-export default withAuth(class Home extends Component {
+export default withAuth(class Navbar extends React.Component {
     constructor(props) {
       super(props);
+      console.log('PROPS', this.props)
       this.state = { authenticated: null };
       this.checkAuthentication = this.checkAuthentication.bind(this);
       this.checkAuthentication();
@@ -28,6 +30,7 @@ export default withAuth(class Home extends Component {
     }
   
     render() {
+      console.log("this in Navbar", this);
         return (
             <nav id="discover-navbar" className="navbar navbar-light">
                 <a className="navbar-brand" href="/">
@@ -35,10 +38,8 @@ export default withAuth(class Home extends Component {
                 </a>
                  <div className="collapse navbar-collapse">
                 { 
-                    this.state.authenticated ? 
-                         <button onClick={this.props.auth.logout}>Logout</button> 
-                        : 
-                        <button onClick={this.props.auth.login}>Login</button>
+                  <button onClick={this.props.auth.logout}>Logout</button> 
+                    
                 }
                 </div>
              </nav>
@@ -47,7 +48,13 @@ export default withAuth(class Home extends Component {
     }
   });
   
+/*
 
+                    this.state.authenticated ? 
+                         <button onClick={this.props.auth.logout}>Logout</button> 
+                        : 
+                        <button onClick={this.props.auth.login}>Login</button>
+*/
 // class Navbar extends React.Component {
 //   constructor(props) {
 //     super(props);

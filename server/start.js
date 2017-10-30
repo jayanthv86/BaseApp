@@ -10,13 +10,7 @@ const cookieParser = require('cookie-parser');
 //const passport = require('passport');
 const pkg = require('../package.json'); 
 var db = require('../db/models');
-import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
 
-const config = {
-  issuer: 'https://dev-439609.oktapreview.com/oauth2/default',
-  redirectUri: window.location.origin + '/implicit/callback',
-  clientId: '0oachhmeflH8pRSIB0h7'
-}
 
 
 
