@@ -11,6 +11,15 @@ class Navbar extends React.Component {
     this.renderLoginSignup = this.renderLoginSignup.bind(this);
     this.renderLogoutAndSettings = this.renderLogoutAndSettings.bind(this);
     this.settingsSelect = this.settingsSelect.bind(this);
+    this.renderBilling = this.renderBilling.bind(this);
+    this.createBilling = this.createBilling.bind(this);
+    this.toggleExternalHTML = this.toggleExternalHTML.bind(this);
+    //this.getInitialState = this.getInitialState.bind(this);
+    this.createMarkup = this.createMarkup.bind(this);
+    this. state={
+      showExternalHTML: false
+    };
+
   }
 //<nav id="discover-navbar" className="navbar navbar-light navbar-brand">
   render() {
@@ -19,6 +28,12 @@ class Navbar extends React.Component {
          <a className="navbar-brand" href="/">
              <img id="logo" src="/images/1010data_Logo_2016.png" width="200" className="d-inline-block align-top" alt=""/>
         </a>
+        <div>
+        <button onClick={this.toggleExternalHTML}>Toggle Html</button>
+        {this.state.showExternalHTML ? <div>
+          <div dangerouslySetInnerHTML={this.createMarkup()} ></div>
+        </div> : null}
+      </div>
         <div className="collapse navbar-collapse">
         { 
             this.props.currentUser ? this.renderLogoutAndSettings() : this.renderLoginSignup()
@@ -27,6 +42,61 @@ class Navbar extends React.Component {
         </div>
        </nav>
     );
+  }
+
+  /*
+  var Demo = React.createClass({
+
+  getInitialState: function() {
+    return {showExternalHTML: false};
+  },
+  
+  render: function() {
+    return (
+      <div>
+        <button onClick={this.toggleExternalHTML}>Toggle Html</button>
+        {this.state.showExternalHTML ? <div>
+          <div dangerouslySetInnerHTML={this.createMarkup()} ></div>
+        </div> : null}
+      </div>
+    );
+  },
+  
+  toggleExternalHTML: function() {
+    this.setState({showExternalHTML: !this.state.showExternalHTML});
+  },
+  
+  createMarkup: function() { 
+    return {__html: '<div class="ext">Hello!</div>'};
+  }
+
+});
+
+ReactDOM.render(
+  <Demo />,
+  document.getElementById('container')
+); 
+  */
+
+  createMarkup() { 
+    return {__html: '<div class="ext">Hello!</div>'};
+  }
+
+  // getInitialState() {
+  //   return {showExternalHTML: false};
+  // }
+
+  toggleExternalHTML() {
+    this.setState({showExternalHTML: !this.state.showExternalHTML});
+  }
+  renderBilling(){
+    return (
+      <div dangerouslySetInnerHTML={this.createBilling()}> </div>
+    );
+  }
+  createBilling(){
+  
+    return {__html: '<div>Hello!</div>'};
   }
 
   renderLoginSignup() {
