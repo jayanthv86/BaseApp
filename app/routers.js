@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+//import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
+import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
 import UserDetail from './components/UserDetail';
 import Root from './components/Root';
@@ -21,9 +23,12 @@ import { fetchDCompanies, fetchAccountStates } from './redux/company';
 import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
 
 const config = {
-  issuer: 'https://dev-120406.oktapreview.com/oauth2/default',
+  issuer: 'https://dev-108550.oktapreview.com/oauth2/default',
   redirectUri: window.location.origin + '/implicit/callback',
-  clientId: '0oacmp72gaMZcB9nX0h7'
+  clientId: '0oacmp3heoEjVyxlX0h7'
+}
+function onAuthRequired({history}) {
+  history.push('/loginform');
 }
 
 /* -----------------    COMPONENT     ------------------ */
@@ -32,10 +37,12 @@ const Routes = ({ fetchInitialData }) => (
   <Router history={browserHistory}>
     <Security issuer={config.issuer}
               client_id={config.clientId}
-              redirect_uri={config.redirect_uri}>
+              redirect_uri={config.redirect_uri}
+              onAuthRequired={onAuthRequired}>
     <Route path="/" component={Root} onEnter={fetchInitialData}>
       <IndexRoute component={Home} />
       <Route path="login" component={Login} />
+      <Route path="loginform" component={LoginForm} baseUrl='https://dev-108550.oktapreview.com' />
       <Route path="signup" component={Signup} />
       <Route path="signup_preferences" component={SignupPreferences} />
       <Route path="signup_payment" component={SignupPayment} />

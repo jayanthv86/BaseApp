@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@okta/okta-auth-js": "^1.8.0",
     "@okta/okta-react": "0.0.7",
     "axios": "^0.16.2",
     "body-parser": "^1.18.1",
@@ -29,7 +30,7 @@
     "react-bootstrap": "^0.31.3",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
-    "react-router": "^3.0.2",
+    "react-router": "^3.2.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^4.0.8",
     "redux": "^3.7.2",

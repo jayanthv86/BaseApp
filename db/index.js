@@ -8,7 +8,7 @@ const name = (app.env.DATABASE_NAME || app.name) +
 const connectionString = process.env.DATABASE_connectionString || `postgres://localhost:5432/${pkg.name}`;
 
 ///////////////////////////////////////////////////////////////////////
-var databaseURI = `postgres://localhost:5432/${pkg.name}`;
+var databaseURI = `postgres://rvkrqsyr:0eVgMMlxO5OPTeQIq3HE32nl39rwaTqZ@elmer.db.elephantsql.com:5432/rvkrqsyr`;
 
 var db = module.exports = new Sequelize(databaseURI, {
   logging: require('debug')('sql'),
